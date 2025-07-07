@@ -2,9 +2,12 @@ package fyneselfupdate
 
 import (
 	"crypto/ed25519"
+	"errors"
+	"fmt"
 	"time"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/dialog"
 	"github.com/fynelabs/selfupdate"
 )
 
@@ -17,6 +20,12 @@ func NewConfig(app fyne.App, win fyne.Window, source selfupdate.Source, schedule
 // and provide a "default to yes" behavior if the user doesn't interact within timeout time to provide unattended
 // update.
 func NewConfigWithTimeout(app fyne.App, win fyne.Window, timeout time.Duration, source selfupdate.Source, schedule selfupdate.Schedule, publicKey ed25519.PublicKey) *selfupdate.Config {
+	selfupdate.LogError = func(format string, args ...interface{}) {
+		err := errors.New(fmt.Sprintf(format, args))
+		fyne.Do(func() {
+			dialog.ShowError(err, win)
+		})
+	}
 	return &selfupdate.Config{
 		Source:    source,
 		Schedule:  schedule,
