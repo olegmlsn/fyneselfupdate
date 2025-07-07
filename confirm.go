@@ -44,7 +44,7 @@ func NewUpgradeConfirmCallbackWithTimeout(win fyne.Window, timeout time.Duration
 			}
 		}, win)
 
-		d.Show()
+		fyne.Do(d.Show)
 		return <-resp
 	}
 }
@@ -84,7 +84,7 @@ func NewRestartConfirmCallbackWithTimeout(win fyne.Window, timeout time.Duration
 			}
 		}, win)
 
-		d.Show()
+		fyne.Do(d.Show)
 		return <-resp
 	}
 }

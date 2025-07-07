@@ -15,27 +15,29 @@ func NewProgressCallback(win fyne.Window) func(float64, error) {
 		if d == nil {
 			if done < 0 {
 				infinite := widget.NewProgressBarInfinite()
-				infinite.Start()
+				fyne.Do(infinite.Start)
 				progress = infinite
 			} else {
 				progress = widget.NewProgressBar()
 			}
 			content := container.NewVBox(widget.NewLabel("Downloading update"), progress)
 			d = dialog.NewCustomWithoutButtons("Application update", content, win)
-			d.Show()
+			fyne.Do(d.Show)
 		}
 
 		cleanup := func() {
 			if infinite, ok := progress.(*widget.ProgressBarInfinite); ok {
-				infinite.Stop()
+				fyne.Do(infinite.Stop)
 			}
 
-			d.Hide()
+			fyne.Do(d.Hide)
 			d = nil
 		}
 
 		if fail != nil {
-			dialog.ShowError(fail, win)
+			fyne.Do(func() {
+				dialog.ShowError(fail, win)
+			})
 			cleanup()
 			return
 		}
@@ -45,7 +47,9 @@ func NewProgressCallback(win fyne.Window) func(float64, error) {
 		}
 
 		if limited, ok := progress.(*widget.ProgressBar); ok {
-			limited.SetValue(done)
+			fyne.Do(func() {
+				limited.SetValue(done)
+			})
 		}
 	}
 }

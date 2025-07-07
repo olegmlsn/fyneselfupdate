@@ -17,7 +17,7 @@ func NewExitCallback(app fyne.App, win fyne.Window) func(err error) {
 				dialog.ShowError(err, win)
 				return
 			}
-			app.Quit()
+			fyne.Do(app.Quit)
 		}
 	}
 	return func(err error) {
@@ -25,6 +25,6 @@ func NewExitCallback(app fyne.App, win fyne.Window) func(err error) {
 			log.Printf("Unable to exit to a new version: %v\n", err)
 			return
 		}
-		app.Quit()
+		fyne.Do(app.Quit)
 	}
 }
