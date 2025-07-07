@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	fyne.io/fyne/v2 v2.6.1
-	github.com/fynelabs/selfupdate v0.2.0
+	github.com/fynelabs/selfupdate v0.2.1
 	golang.org/x/net v0.35.0
 )
 
